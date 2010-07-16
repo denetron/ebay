@@ -71,7 +71,7 @@ module Ebay #:nodoc:
     end
     
     def self.ru_url(options = {})
-      use_sandbox ? self.runame_sandbox_url + "ws/eBayISAPI.dll?SignIn&RuName=#{options[:runame]}&SessID=#{options[:session_id]}" : self.runame_production_url + "ws/eBayISAPI.dll?SignIn&RuName=#{options[:runame]}&SessID=#{options[:session_id]}"
+      use_sandbox ? self.runame_sandbox_url + "ws/eBayISAPI.dll?SignIn&RuName=#{options[:runame] || self.runame}&SessID=#{options[:session_id]}" : self.runame_production_url + "ws/eBayISAPI.dll?SignIn&RuName=#{options[:runame] || self.runame}&SessID=#{options[:session_id]}"
     end
 
     # Simply yields the Ebay::Api class itself.  This makes configuration a bit nicer looking:
