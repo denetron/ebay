@@ -39,12 +39,16 @@ module Ebay #:nodoc:
     XmlNs = 'urn:ebay:apis:eBLBaseComponents'
     
     cattr_accessor :use_sandbox, :sandbox_url, :production_url, :site_id
+    cattr_accessor :runame_sandbox_url, :runame_production_url, :runame
     cattr_accessor :dev_id, :app_id, :cert, :auth_token
     cattr_accessor :username, :password
     attr_reader :auth_token, :site_id
     
     self.sandbox_url = 'https://api.sandbox.ebay.com/ws/api.dll'
     self.production_url = 'https://api.ebay.com/ws/api.dll'
+    self.runame_sandbox_url = "https://signin.sandbox.ebay.com/"
+    self.runame_production_url = "https://signin.ebay.com/"
+    
     self.use_sandbox = false
 
     # Make the default site US
@@ -64,6 +68,10 @@ module Ebay #:nodoc:
     # Are we currently routing requests to the eBay production URL?
     def self.using_production?
       !using_sandbox?
+    end
+    
+    def self.ru_url(options = {})
+      use_sandbox ? self.runame_sandbox_url + "ws/eBayISAPI.dll?SignIn&RuName=#{options[:runame]}&SessID=#{options[:session_id]}" : self.runame_production_url + "ws/eBayISAPI.dll?SignIn&RuName=#{options[:runame]}&SessID=#{options[:session_id]}"
     end
 
     # Simply yields the Ebay::Api class itself.  This makes configuration a bit nicer looking:
